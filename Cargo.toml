@@ -1,0 +1,29 @@
+[package]
+name = "trait_fields"
+version = "0.0.1-alpha.2"
+authors = ["Kudret Gurbuz <kudretgurbuz@gmail.com>"]
+edition = "2018"
+
+description = "Macro solution to adding fields to traits."
+
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[dependencies.proc_macro]
+package = "trait_fields-proc-macro"
+version = "0.0.1-alpha.2"
+path = "src/proc_macro"
+
+[features]
+specialization = ["proc_macro/specialization"]
+verbose-expansions = ["proc_macro/verbose-expansions", ]
+
+external_doc = []
+
+default = []
+
+[package.metadata.docs.rs]
+features = ["external_doc"]

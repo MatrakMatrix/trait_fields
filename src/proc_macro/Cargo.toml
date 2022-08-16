@@ -1,0 +1,27 @@
+[lib]
+proc-macro = true
+path = "mod.rs"
+
+[package]
+name = "trait_fields-proc-macro"
+version = "0.0.1-alpha.2"
+authors = ["Kudret Gurbuz <kudretgurbuz@gmail.com>"]
+edition = "2018"
+
+description = "Macro solution to adding fields to traits."
+
+license = "MIT"
+
+[dependencies]
+fstrings = "0.1.4"
+proc-macro2 = "1.0.5"
+proc-macro-crate = "0.1.4"
+quote = "1.0.2"
+syn = { version = "1.0.5", features = ["full", ] }
+regex = "1"
+
+[features]
+specialization = []
+verbose-expansions = ["syn/extra-traits", ]
+
+default = []
