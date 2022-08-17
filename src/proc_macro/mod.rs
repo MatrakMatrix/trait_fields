@@ -337,6 +337,32 @@ fn take<T : Default> (x: &'_ mut T) -> T {
 	mem::replace(x, T::default())
 }
 
+#[proc_macro_attribute]
+pub fn implements(params: TokenStream, input: TokenStream) -> TokenStream {
+	let mut source = input.to_string();
+	let mut ind = source.find('{');
+	if ind.is_none() {
+		let semicolon = source.find(';');
+		if semicolon.is_some() {
+			source.pop();
+			source += " {}";
+			ind = source.find('{');
+		}
+	}
+	let ind = ind.unwrap();
+	let traits = params.to_string().replace(" ", "");
+	let traits = traits.split(",");
+
+	for t in traits {
+		source.insert_str(ind+1, &format!("#[implements({})] {}: {}Struct,", t, t.to_lowercase(), t));
+	}
+
+	let input: TokenStream = source.parse().unwrap();
+	let mut new_input = "#[derive(trait_fields)] ".to_string();
+	new_input += &input.to_string();
+	new_input.parse().unwrap()
+}
+
 #[proc_macro_derive(trait_fields, attributes(implements))]
 pub fn derive_trait_fields (input: TokenStream) -> TokenStream {
 	debug!(concat!(
